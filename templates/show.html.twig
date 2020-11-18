@@ -1,0 +1,64 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - {{ immo.title }}
+{% endblock %}
+
+{% block body %}
+    <div class="jumbotron">
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-8">
+
+                </div>
+                <div class="col-md-4">
+                    <h1>{{ immo.title }}</h1>
+                    <h2>{{ immo.rooms }} pièce(s) - {{ immo.surface }} m2</h2>
+                    <div style="font-size: 4rem; font-weight: bold" class="text-primary">
+                        {{ immo.price | number_format(0, '', '') }}
+                    </div>
+                    <a href="#" class="btn btn-primary">Contacter l'agence</a>
+                </div>
+            </div>
+
+            <p>
+                {{ immo.description | nl2br }}
+            </p>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <h2>Caractéristiques</h2>
+                <table class="table table-striped">
+                    <tr>
+                        <td>Surface habitable</td>
+                        <td>{{ immo.surface }}</td>
+                    </tr>
+                    <tr>
+                        <td>Pièce(s)</td>
+                        <td>{{ immo.rooms}}</td>
+                    </tr>
+                    <tr>
+                        <td>Chambre(s)</td>
+                        <td>{{ immo.bedrooms}}</td>
+                    </tr>
+                    <tr>
+                        <td>Étage(s)</td>
+                        <td>{{ immo.floor}}</td>
+                    </tr>
+                    <tr>
+                        <td>Type de chauffage)</td>
+                        <td>{{ immo.heatType}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
