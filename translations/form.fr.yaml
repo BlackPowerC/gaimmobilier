@@ -1,0 +1,11 @@
+City: Ville
+Title: Titre
+Rooms: Nombre de pièce
+Description: Description
+Bedrooms: Nombre de chambre à coucher
+Surface: Surface
+Floor: Nombre d'étage
+Price: Prix
+Heat: Type de chauffage
+Electric: Électrique
+Gaz: Gaz

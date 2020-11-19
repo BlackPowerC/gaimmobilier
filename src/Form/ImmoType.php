@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Immo;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,12 +20,12 @@ class ImmoType extends AbstractType
             ->add('surface')
             ->add('floor')
             ->add('price')
-            ->add('heat')
+            ->add('heat', ChoiceType::class, [
+                "choices" => $this->getChoices()
+            ])
             ->add('city')
             ->add('address')
             ->add('postalCode')
-            ->add('sold')
-            ->add('addedAt')
         ;
     }
 
@@ -32,6 +33,16 @@ class ImmoType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Immo::class,
+            "translation_domain" => "form"
         ]);
+    }
+
+    private function getChoices()
+    {
+        $choices = [] ;
+        foreach (Immo::HEAT as $choiceKey => $choiceValue) {
+            $choices[$choiceValue] = $choiceKey;
+        }
+        return $choices ;
     }
 }
