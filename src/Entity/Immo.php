@@ -13,8 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Immo
 {
     const HEAT = [
-        0 => "electric",
-        1 => "gaz"
+        0 => "Électrique",
+        1 => "Gaz"
     ] ;
 
     /**
@@ -92,8 +92,10 @@ class Immo
      */
     private $addedAt;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->addedAt = new DateTime() ;
+        $this->sold = false ;
     }
 
     public function getId(): ?int
