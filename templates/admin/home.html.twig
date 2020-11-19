@@ -19,7 +19,15 @@
                 <tr>
                     <td>{{ immo.title }}</td>
                     <td>
-                        <a href="{{ path("immos.admin.edit", {id: immo.id}) }}">Éditer</a>
+                        <a class="btn btn-warning" href="{{ path("immos.admin.edit", {id: immo.id}) }}">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <a class="btn btn-primary" href="{{ path("immos.admin.new") }}">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <a class="btn btn-danger" href="{{ path("immos.admin.delete", {id: immo.id}) }}">
+                            <i class="fa fa-trash"></i>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

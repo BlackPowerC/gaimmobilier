@@ -15,10 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
-
+    /**
+     * @var ImmoRepository
+     */
     private $repo ;
-    private $em ;
 
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em ;
 
     public function __construct(ImmoRepository $repo, EntityManagerInterface $em) {
         $this->repo = $repo ;
@@ -61,8 +66,49 @@ class AdminController extends AbstractController
         }
 
         return $this->render("admin/edit.html.twig", [
-            "immos" => $immo,
+            "immo" => $immo,
             "form" => $form->createView()
         ]) ;
+    }
+
+    /**
+     * Afficher la page pour enregistrer un nouveau bien.
+     *
+     * @Route("/admin/immos/new", name="immos.admin.new", methods={"GET", "POST"})
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function add(Request $request) : Response
+    {
+        $immo = new Immo() ;
+        $form = $this->createForm(ImmoType::class, $immo) ;
+        $form->handleRequest($request) ;
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $this->em->persist($immo) ;
+            $this->em->flush() ;
+
+            return $this->redirectToRoute("immos.admin") ;
+        }
+
+        return $this->render("admin/new.html.twig", [
+            "immo" => $immo,
+            "form" => $form->createView()
+        ]) ;
+    }
+
+    /**
+     * @Route("/admin/immos/delete/{id}", name="immos.admin.delete", requirements={"id": "\d+"}, methods={"DELETE"})
+     *
+     * @param Immo $immo
+     * @return Response
+     */
+    public function delete(Immo $immo) : Response
+    {
+        $this->em->remove($immo) ;
+        $this->em->flush() ;
+        return $this->redirectToRoute("immos.admin") ;
     }
 }

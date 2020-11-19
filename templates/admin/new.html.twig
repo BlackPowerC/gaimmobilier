@@ -1,0 +1,9 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Nouveau bien
+{% endblock %}
+
+{% block body %}
+    {{ include ("admin/_form.html.twig", {form: form, title: "Nouveau bien" }) }}
+{% endblock %}
