@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Gérer les biens immobiliers
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Gérer les biens immobiliers</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for immo in immos %}
+                <tr>
+                    <td>{{ immo.title }}</td>
+                    <td>
+                        <a href="{{ path("immos.admin.edit", {id: immo.id}) }}">Éditer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
