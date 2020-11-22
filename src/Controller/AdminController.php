@@ -62,6 +62,7 @@ class AdminController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $this->em->flush() ;
+            $this->addFlash("success", "Modifié avec succès") ;
             return $this->redirectToRoute("immos.admin") ;
         }
 
@@ -89,6 +90,7 @@ class AdminController extends AbstractController
         {
             $this->em->persist($immo) ;
             $this->em->flush() ;
+            $this->addFlash("success", "Ajouté avec succès") ;
 
             return $this->redirectToRoute("immos.admin") ;
         }
@@ -102,13 +104,22 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/immos/delete/{id}", name="immos.admin.delete", requirements={"id": "\d+"}, methods={"DELETE"})
      *
+     * @param Request $request
      * @param Immo $immo
      * @return Response
      */
-    public function delete(Immo $immo) : Response
+    public function delete(Request $request, Immo $immo) : Response
     {
-        $this->em->remove($immo) ;
-        $this->em->flush() ;
+        if($this->isCsrfTokenValid("delete" . $immo->getId(), $request->get("_token")))
+        {
+            $this->em->remove($immo) ;
+            $this->em->flush() ;
+            $this->addFlash("success", "Supprimé avec succès") ;
+        }
+        else {
+            $this->addFlash("error", "Quelque chose s'est mal passé") ;
+        }
+
         return $this->redirectToRoute("immos.admin") ;
     }
 }

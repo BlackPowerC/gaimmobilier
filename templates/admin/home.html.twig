@@ -7,6 +7,10 @@
 {% block body %}
     <div class="container mt-4">
         <h1>Gérer les biens immobiliers</h1>
+
+        {% include "_alert_success.html.twig" %}
+        {% include "_alert_warning.html.twig" %}
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -22,16 +26,20 @@
                         <a class="btn btn-warning" href="{{ path("immos.admin.edit", {id: immo.id}) }}">
                             <i class="fa fa-pencil"></i>
                         </a>
-                        <a class="btn btn-primary" href="{{ path("immos.admin.new") }}">
-                            <i class="fa fa-plus"></i>
-                        </a>
-                        <a class="btn btn-danger" href="{{ path("immos.admin.delete", {id: immo.id}) }}">
-                            <i class="fa fa-trash"></i>
-                        </a>
+                        <form onsubmit="return confirm('Êtes-vous sur ?')" style="display: inline-block" method="POST" action="{{ path('immos.admin.delete', {id: immo.id}) }}">
+                            <input type="hidden" name="_method" value="DELETE"/>
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ immo.id) }}"/>
+                            <button class="btn btn-danger" type="submit">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+        <a title="Ajouté un bien" class="btn btn-primary" href="{{ path("immos.admin.new") }}">
+            <i class="fa fa-plus"></i>
+        </a>
     </div>
 {% endblock %}
