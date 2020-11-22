@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ImmoRepository;
 use Cocur\Slugify\Slugify;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Constraints;
 
@@ -115,10 +117,16 @@ class Immo
      */
     private $addedAt;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Option::class, mappedBy="properties")
+     */
+    private $options;
+
     public function __construct()
     {
         $this->addedAt = new DateTime() ;
         $this->sold = false ;
+        $this->options = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -289,5 +297,32 @@ class Immo
 
     public function getSluggedTitle() : string {
         return (new Slugify())->slugify($this->title, '_') ;
+    }
+
+    /**
+     * @return Collection|Option[]
+     */
+    public function getOptions(): Collection
+    {
+        return $this->options;
+    }
+
+    public function addOption(Option $option): self
+    {
+        if (!$this->options->contains($option)) {
+            $this->options[] = $option;
+            $option->addProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOption(Option $option): self
+    {
+        if ($this->options->removeElement($option)) {
+            $option->removeProperty($this);
+        }
+
+        return $this;
     }
 }
