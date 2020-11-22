@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Immo;
 use App\Form\ImmoType;
@@ -13,6 +13,12 @@ use Symfony\Component\HttpFoundation\Response;
 // annotations
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/admin")
+ *
+ * Class AdminController
+ * @package App\Controller\Admin
+ */
 class AdminController extends AbstractController
 {
     /**
@@ -33,7 +39,7 @@ class AdminController extends AbstractController
     /**
      * Afficher la page pour gérer tout les biens immobilier.
      *
-     * @Route("/admin", name="immos.admin", methods={"GET"})
+     * @Route("/", name="immos.admin", methods={"GET"})
      *
      * @return Response
      */
@@ -48,7 +54,7 @@ class AdminController extends AbstractController
     /**
      * Afficher la page pour modifier un bien immobilier.
      *
-     * @Route("/admin/immos/update/{id}", name="immos.admin.edit", methods={"GET", "POST"})
+     * @Route("/immos/update/{id}", name="immos.admin.edit", methods={"GET", "POST"})
      *
      * @param Immo $immo
      * @param Request $req
@@ -75,7 +81,7 @@ class AdminController extends AbstractController
     /**
      * Afficher la page pour enregistrer un nouveau bien.
      *
-     * @Route("/admin/immos/new", name="immos.admin.new", methods={"GET", "POST"})
+     * @Route("/immos/new", name="immos.admin.new", methods={"GET", "POST"})
      *
      * @param Request $request
      * @return Response
@@ -102,7 +108,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/immos/delete/{id}", name="immos.admin.delete", requirements={"id": "\d+"}, methods={"DELETE"})
+     * @Route("/immos/delete/{id}", name="immos.admin.delete", requirements={"id": "\d+"}, methods={"DELETE"})
      *
      * @param Request $request
      * @param Immo $immo
