@@ -6,6 +6,7 @@ use App\Repository\ImmoRepository;
 use Cocur\Slugify\Slugify;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Constraints;
 
 /**
  * @ORM\Entity(repositoryClass=ImmoRepository::class)
@@ -25,12 +26,16 @@ class Immo
     private $id;
 
     /**
+     * @Constraints\NotBlank(message="Le titre est obligatoire.")
+     *
      * @ORM\Column(type="string", length=127, nullable=false)
      * @var string
      */
     private $title;
 
     /**
+     * @Constraints\Range(min=1, minMessage="Le bien doit avoir au moins, une pièce.")
+     *
      * @ORM\Column(type="integer")
      */
     private $rooms;
@@ -48,46 +53,64 @@ class Immo
     private $bedrooms;
 
     /**
+     * @Constraints\Range(min=10, minMessage="Le bien doit avoir au moins 10 m2 de surface.")
+     *
      * @ORM\Column(type="integer")
      */
     private $surface;
 
     /**
+     * @Constraints\Range(min=1, minMessage="Le rez de chaussée au moins.")
+     *
      * @ORM\Column(type="integer")
      */
     private $floor;
 
     /**
+     * @Constraints\Range(min=1, minMessage="Le bien ne peut pas être gratuit.")
+     *
      * @ORM\Column(type="integer")
      */
     private $price;
 
     /**
+     * @Constraints\Choice(choices={"Électrique", "Gaz"})
+     *
      * @ORM\Column(type="integer", nullable=true)
      */
     private $heat;
 
     /**
+     * @Constraints\NotNull
+     *
      * @ORM\Column(type="string", length=127)
      */
     private $city;
 
     /**
+     * @Constraints\NotNull
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $address;
 
     /**
+     * @Constraints\NotNull
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $postalCode;
 
     /**
+     * @Constraints\NotNull
+     *
      * @ORM\Column(type="boolean", options={"default":true})
      */
     private $sold;
 
     /**
+     * @Constraints\NotNull
+     *
      * @ORM\Column(type="datetime")
      */
     private $addedAt;
