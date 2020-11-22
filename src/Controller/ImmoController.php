@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\ImmoSearch;
+use App\Form\ImmoSearchType;
 use App\Repository\ImmoRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 // Annotations
@@ -12,8 +16,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ImmoController extends AbstractController
 {
-
+    /**
+     * @var ImmoRepository
+     */
     private $repo ;
+
+    /**
+     * @var EntityManagerInterface
+     */
     private $em ;
 
     public function __construct(ImmoRepository $repo, EntityManagerInterface $em)
@@ -27,14 +37,22 @@ class ImmoController extends AbstractController
      *
      * @Route("/", name="immos.home", methods={"GET"})
      *
+     * @param PaginatorInterface $paginator
+     * @param Request $req
      * @return Response
      */
-    public function home() : Response
+    public function home(PaginatorInterface $paginator, Request $req) : Response
     {
-        $immos = $this->repo->findAll() ;
+        // Formulaire
+        $immoSearch = new ImmoSearch() ;
+        $form = $this->createForm(ImmoSearchType::class, $immoSearch) ;
+        $form->handleRequest($req) ;
+
+        $immos = $paginator->paginate($this->repo->findAllUnSoldedQuery($immoSearch), $req->query->getInt("page", 1), 12) ;
 
         return $this->render("home.html.twig",[
-            "immos" => $immos
+            "immos" => $immos,
+            "searchForm" => $form->createView()
         ]) ;
     }
 

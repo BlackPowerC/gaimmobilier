@@ -7,6 +7,21 @@
 {% block body %}
     <div class="jumbotron text-center">
         <h1 class="text-uppercase">ImmoFutura</h1>
+        <div class="container">
+            {{ form_start(searchForm) }}
+            <div class="form-row">
+                <div class="col">
+                    {{ form_row(searchForm.minSurface) }}
+                </div>
+                <div class="col">
+                    {{ form_row(searchForm.maxPrice) }}
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary" type="submit">Rechercher</button>
+                </div>
+            </div>
+            {{ form_end(searchForm) }}
+        </div>
     </div>
     <div class="container">
         <div class="row flex">

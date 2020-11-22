@@ -3,9 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Immo;
+use App\Entity\ImmoSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -27,11 +29,23 @@ class ImmoRepository extends ServiceEntityRepository
     /**
      * Trouver tout les biens immobiliers non-vendus
      *
+     * @param ImmoSearch $search
      * @return array
      */
-    public function findAllUnSolded() : array {
-        return $this->findAllSoldedOrUnSolded(false) ;
-
+    public function findAllUnSoldedQuery(ImmoSearch $search) : ?QueryBuilder
+    {
+        $query = $this->findAllSoldedOrUnSolded(false) ;
+        if($search->getMaxPrice())
+        {
+            $query->where("i.price <= :maxPrice") ;
+            $query->setParameter("maxPrice", $search->getMaxPrice()) ;
+        }
+        if($search->getMinSurface())
+        {
+            $query->where("i.surface >= :minSurface") ;
+            $query->setParameter("minSurface", $search->getMinSurface()) ;
+        }
+        return $query ;
     }
 
     /**
@@ -45,9 +59,9 @@ class ImmoRepository extends ServiceEntityRepository
 
     private function findAllSoldedOrUnSolded(bool $status)
     {
-        return $this->em->createQuery("SELECT i FROM App\Entity\Immo i WHERE i.sold = :sold")
-            ->setParameter("sold", $status)
-            ->getResult();
+        return $this->createQueryBuilder('i')
+            ->where("i.sold = :sold")
+            ->setParameter("sold", $status) ;
     }
 
 }
