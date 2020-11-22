@@ -24,13 +24,19 @@
                             <p class="card-text">
                                 {{ immo.city }} {{ immo.postalCode }}
                             </p>
+                            <div class="">
+                                {{ immo.surface | number_format(0, '', '') }} m2
+                            </div>
                             <div class="text-primary">
-                                {{ immo.price | number_format(0, '', '') }}
+                                {{ immo.price | number_format(0, '', '') }} XOF
                             </div>
                         </div>
                     </div>
                 </div>
             {% endfor %}
+        </div>
+        <div class="navigation">
+            {{ knp_pagination_render(immos) }}
         </div>
     </div>
 {% endblock %}
