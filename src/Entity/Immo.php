@@ -76,7 +76,7 @@ class Immo
     private $price;
 
     /**
-     * @Constraints\Choice(choices={"Électrique", "Gaz"})
+     * @Constraints\Choice(choices={0, 1})
      *
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -118,7 +118,7 @@ class Immo
     private $addedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Option::class, mappedBy="properties")
+     * @ORM\ManyToMany(targetEntity=Option::class, inversedBy="properties")
      */
     private $options;
 
