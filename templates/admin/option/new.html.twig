@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Créer un nouvel option
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Créer un nouvel option</h1>
+
+        {{ include('admin/option/_form.html.twig') }}
+
+        <a class="btn btn-primary" title="Retourner à la liste" href="{{ path('admin.option.index') }}">
+            <i class="fa fa-backward"></i>
+        </a>
+    </div>
+{% endblock %}
