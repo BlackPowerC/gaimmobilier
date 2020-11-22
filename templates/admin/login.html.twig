@@ -22,12 +22,13 @@
                 <label for="password">Mot de passe</label>
                 <input required id="password" type="password" name="_password" class="form-control"/>
             </div>
+
+            <input type="hidden" name="_target_path" value="/" />
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+
             <button type="submit" class="btn btn-primary">
                 Se connecter
             </button>
-            <a href="{{ path("logout") }}" class="btn btn-danger">
-                Se déconnecter
-            </a>
         </form>
     </div>
 {% endblock %}
