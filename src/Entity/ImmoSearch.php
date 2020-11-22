@@ -4,6 +4,8 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 class ImmoSearch
 {
     /**
@@ -15,6 +17,15 @@ class ImmoSearch
      * @var int|null
      */
     private $minSurface;
+
+    /**
+     * @var ArrayCollection|null
+     */
+    private $options;
+
+    public function __construct() {
+        $this->options = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -47,6 +58,24 @@ class ImmoSearch
     public function setMinSurface(?int $minSurface): ImmoSearch
     {
         $this->minSurface = $minSurface;
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|null
+     */
+    public function getOptions(): ?ArrayCollection
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param ArrayCollection|null $options
+     * @return ImmoSearch
+     */
+    public function setOptions(?ArrayCollection $options): ImmoSearch
+    {
+        $this->options = $options;
         return $this;
     }
 }

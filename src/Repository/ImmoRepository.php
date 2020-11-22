@@ -45,6 +45,17 @@ class ImmoRepository extends ServiceEntityRepository
             $query->where("i.surface >= :minSurface") ;
             $query->setParameter("minSurface", $search->getMinSurface()) ;
         }
+        if(!$search->getOptions()->isEmpty())
+        {
+            $options = $search->getOptions() ;
+            $index = 0 ;
+            foreach($options as $option)
+            {
+                $query->where(":option$index MEMBER OF i.options") ;
+                $query->setParameter("option$index", $option) ;
+            }
+        }
+
         return $query ;
     }
 

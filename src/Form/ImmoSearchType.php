@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\ImmoSearch;
+use App\Entity\Option;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,6 +30,16 @@ class ImmoSearchType extends AbstractType
                 "attr" => [
                     "placeholder" => "Surface Minimale",
                     "min" => "0"
+                ]
+            ])
+            ->add('options', EntityType::class, [
+                "required" => false,
+                "label" => false,
+                "class" => Option::class,
+                "choice_label" => "name",
+                "multiple" => true,
+                "attr" => [
+                    "placeholder" => "Les options"
                 ]
             ])
         ;
