@@ -33,6 +33,8 @@
                     <div class="card">
                         {% if immo.filename %}
                             <img src="{{ vich_uploader_asset(immo, 'imageFile') | imagine_filter('thumb') }}" alt="{{ immo.filename }}" style="width: 100%; height: auto;" />
+                        {% else %}
+                            <img src="{{ asset('images/immos/not_found.jpg') | imagine_filter('thumb') }}" alt="{{ immo.filename }}" style="width: 100%; height: auto;" />
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-tittle">
