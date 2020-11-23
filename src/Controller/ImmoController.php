@@ -2,17 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\Immo;
+use App\Entity\Contact;
+use App\Form\ContactType;
 use App\Entity\ImmoSearch;
 use App\Form\ImmoSearchType;
 use App\Repository\ImmoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 // Annotations
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ImmoController extends AbstractController
 {
@@ -61,18 +64,19 @@ class ImmoController extends AbstractController
      *
      * @Route("/immos/{title}/{id}", name="immos.show", requirements={"id": "\d+"}, methods={"GET"})
      *
-     * @param int $id L'id du bien immobilier
+     * @param Immo $immo Le bien immobilier
      * @return Response
      */
-    public function show(int $id) : Response
+    public function show(Immo $immo, Request $req) : Response
     {
-        $immo = $this->repo->find($id) ;
-        if(is_null($immo)) {
-            return new Response("Rien par ici", 404) ;
-        }
+        $contact = new Contact() ;
+        $contact->setImmo($immo) ;
 
+        $form = $this->createForm(ContactType::class, $contact) ;
+        
         return $this->render("show.html.twig", [
-            "immo" => $immo
+            "immo" => $immo,
+            "contactForm" => $form->createView()
         ]) ;
     }
 }

@@ -22,6 +22,26 @@
                         {{ immo.price | number_format(0, '', '') }}
                     </div>
                     <a href="#" class="btn btn-primary">Contacter l'agence</a>
+                    </div id="contactForm" class="mt-4">
+                        {{ form_start(contactForm) }}
+                            <div class="row">
+                                <div class="col">
+                                    {{ form_row(contactForm.firstname) }}
+                                </div>
+                                <div class="col">
+                                    {{ form_row(contactForm.lastname) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    {{ form_row(contactForm.email) }}
+                                </div>
+                                <div class="col">
+                                    {{ form_row(contactForm.message) }}
+                                </div>
+                            </div>
+                        {{ form_end(contactForm) }}
+                    </div>
                 </div>
             </div>
 

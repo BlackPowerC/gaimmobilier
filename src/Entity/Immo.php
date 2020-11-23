@@ -125,7 +125,7 @@ class Immo
     private $addedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Option::class, inversedBy="properties")
+     * @ORM\ManyToMany(targetEntity=Option::class, inversedBy="properties", fetch="LAZY")
      */
     private $options;
 
