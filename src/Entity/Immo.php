@@ -5,12 +5,19 @@ namespace App\Entity;
 use App\Repository\ImmoRepository;
 use Cocur\Slugify\Slugify;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Constraints;
+use Vich\UploaderBundle\Mapping\Annotation\UploadableField as UploadableField;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable as Uploadable;
 
 /**
+ * @Uploadable
  * @ORM\Entity(repositoryClass=ImmoRepository::class)
  */
 class Immo
@@ -121,6 +128,26 @@ class Immo
      * @ORM\ManyToMany(targetEntity=Option::class, inversedBy="properties")
      */
     private $options;
+
+    /**
+     * @ORM\Column(name="filename", length=255, nullable=true)
+     *
+     * @var string|null
+     */
+    private $filename;
+
+    /**
+     * @var File|null
+     *
+     * @Constraints\Image(mimeTypes="image/*")
+     * @UploadableField(mapping="property_image", fileNameProperty="filename")
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     public function __construct()
     {
@@ -325,4 +352,58 @@ class Immo
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param string $filename
+     * @return Immo
+     */
+    public function setFilename(?string $filename): Immo
+    {
+        $this->filename = $filename;
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     * @return Immo
+     * @throws Exception
+     */
+    public function setImageFile(?File $imageFile): Immo
+    {
+        if($imageFile instanceof UploadedFile)
+        {
+            $this->imageFile = $imageFile;
+            $this->addedAt = new DateTime("now");
+        }
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
 }

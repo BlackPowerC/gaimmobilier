@@ -31,6 +31,9 @@
             {% for immo in immos %}
                 <div class="col-md-3">
                     <div class="card">
+                        {% if immo.filename %}
+                            <img src="{{ vich_uploader_asset(immo, 'imageFile') | imagine_filter('thumb') }}" alt="{{ immo.filename }}" style="width: 100%; height: auto;" />
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-tittle">
                                 <a href="{{ path('immos.show', {id: immo.id, title: immo.sluggedTitle}) }}"
