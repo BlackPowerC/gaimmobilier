@@ -29,6 +29,7 @@
     <div class="container">
         <div class="row flex">
             {% for immo in immos %}
+                {% cache 'immo' ~ immo.id immo.updatedAt.timestamp | default(0) %}
                 <div class="col-md-3">
                     <div class="card">
                         {% if immo.filename %}
@@ -56,6 +57,7 @@
                         </div>
                     </div>
                 </div>
+                {% endcache %}
             {% endfor %}
         </div>
         <div class="navigation">

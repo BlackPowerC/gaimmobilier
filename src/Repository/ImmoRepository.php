@@ -72,6 +72,7 @@ class ImmoRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('i')
             ->where("i.sold = :sold")
+            ->leftJoin("i.options", "opts")
             ->setParameter("sold", $status) ;
     }
 
