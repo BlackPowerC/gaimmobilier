@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Constraints;
+use Symfony\Component\Validator\Constraints as Constraint;
 
 class Contact
 {
@@ -28,7 +28,7 @@ class Contact
     private $email;
     
     /**
-     * @Constraint\Lenght(min=3, max=2048)
+     * @Constraint\Length(min=3, max=2048)
      * @Constraint\NotBlank
      *
      * @var ?string
@@ -79,7 +79,7 @@ class Contact
     }
 
     public function setMessage(?string $message): Contact {
-        $this->message = $essage;
+        $this->message = $message;
         return $this;
     }
 

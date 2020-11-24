@@ -9,9 +9,10 @@ use App\Entity\ImmoSearch;
 use App\Form\ImmoSearchType;
 use App\Repository\ImmoRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
 
 // Annotations
+use App\Notification\ContactNotification;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,18 +63,25 @@ class ImmoController extends AbstractController
     /**
      * Afficher un biem immobilier.
      *
-     * @Route("/immos/{title}/{id}", name="immos.show", requirements={"id": "\d+"}, methods={"GET"})
+     * @Route("/immos/{title}/{id}", name="immos.show", requirements={"id": "\d+"}, methods={"GET", "POST"})
      *
      * @param Immo $immo Le bien immobilier
      * @return Response
      */
-    public function show(Immo $immo, Request $req) : Response
+    public function show(Immo $immo, Request $req, ContactNotification $cn) : Response
     {
         $contact = new Contact() ;
         $contact->setImmo($immo) ;
 
         $form = $this->createForm(ContactType::class, $contact) ;
-        
+        $form->handleRequest($req) ;
+
+        if($form->isSubmitted() && $form->isValid()) 
+        {
+            $cn->notify($contact) ;
+            $this->addFlash("success", "Message bien envoyé") ;
+        }
+
         return $this->render("show.html.twig", [
             "immo" => $immo,
             "contactForm" => $form->createView()

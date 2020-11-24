@@ -7,6 +7,10 @@
 {% block body %}
     <div class="jumbotron">
         <div class="container mt-4">
+
+            {% include "_alert_success.html.twig" %}
+            {% include "_alert_warning.html.twig" %}
+
             <div class="row">
                 <div class="col-md-8">
                     {% if immo.filename %}
@@ -40,6 +44,8 @@
                                     {{ form_row(contactForm.message) }}
                                 </div>
                             </div>
+                            <button type="submit" class="btn btn-primary">Envoyer</button>
+                            {{ form_rest(contactForm) }}
                         {{ form_end(contactForm) }}
                     </div>
                 </div>
