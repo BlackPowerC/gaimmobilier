@@ -6,6 +6,7 @@ use App\Entity\Option;
 use App\Form\OptionType;
 use App\Repository\OptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,10 +32,12 @@ class OptionController extends AbstractController
      * @param OptionRepository $optionRepository
      * @return Response
      */
-    public function index(OptionRepository $optionRepository): Response
+    public function index(OptionRepository $repo, PaginatorInterface $paginator, Request $req): Response
     {
+        $options = $paginator->paginate($repo->findAllQuery(), $req->query->getInt("page", 1), 6) ;
+
         return $this->render("admin/option/index.html.twig", [
-            "options" => $optionRepository->findAll(),
+            "options" => $options,
         ]) ;
     }
 

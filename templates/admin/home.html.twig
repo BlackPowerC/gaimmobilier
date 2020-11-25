@@ -11,6 +11,9 @@
         {% include "_alert_success.html.twig" %}
         {% include "_alert_warning.html.twig" %}
 
+        <a title="Ajouté un bien" class="btn btn-primary" href="{{ path("immos.admin.new") }}">
+            <i class="fa fa-plus"></i>
+        </a>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -38,8 +41,8 @@
             {% endfor %}
             </tbody>
         </table>
-        <a title="Ajouté un bien" class="btn btn-primary" href="{{ path("immos.admin.new") }}">
-            <i class="fa fa-plus"></i>
-        </a>
+                <div class="navigation">
+            {{ knp_pagination_render(immos) }}
+        </div>
     </div>
 {% endblock %}

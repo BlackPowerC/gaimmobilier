@@ -7,6 +7,10 @@
 {% block body %}
     <div class="container mt-4">
         <h1>Gérer les options</h1>
+                <a title="Ajouter une nouvelle option" class="btn btn-primary" href="{{ path('admin.option.new') }}">
+            <i class="fa fa-plus"></i>
+        </a>
+        
         <table class="table table-striped">
             <thead>
             <tr>
@@ -36,9 +40,8 @@
             {% endfor %}
             </tbody>
         </table>
-
-        <a title="Ajouter une nouvelle option" class="btn btn-primary" href="{{ path('admin.option.new') }}">
-            <i class="fa fa-plus"></i>
-        </a>
+        <div class="navigation">
+            {{ knp_pagination_render(options) }}
+        </div>
     </div>
 {% endblock %}

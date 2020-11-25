@@ -6,12 +6,13 @@ use App\Entity\Immo;
 use App\Form\ImmoType;
 use App\Repository\ImmoRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 // annotations
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/admin")
@@ -43,9 +44,10 @@ class AdminController extends AbstractController
      *
      * @return Response
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $req) : Response
     {
-        $immos = $this->repo->findAll() ;
+        $immos = $paginator->paginate($this->repo->findAllUnSoldedQuery(null), $req->query->getInt("page", 1), 12) ;
+
         return $this->render('admin/home.html.twig', [
             "immos" => $immos,
         ]) ;

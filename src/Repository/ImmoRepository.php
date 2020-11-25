@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Immo;
 use App\Entity\ImmoSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class ImmoRepository extends ServiceEntityRepository
 {
     private $em ;
-
+ 
     public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Immo::class);
@@ -32,17 +31,19 @@ class ImmoRepository extends ServiceEntityRepository
      * @param ImmoSearch $search
      * @return array
      */
-    public function findAllUnSoldedQuery(ImmoSearch $search) : ?QueryBuilder
+    public function findAllUnSoldedQuery(?ImmoSearch $search) : ?QueryBuilder
     {
         $query = $this->findAllSoldedOrUnSolded(false) ;
-        if($search->getMaxPrice())
+        if(!is_null($search))
         {
-            $query->where("i.price <= :maxPrice") ;
+            if($search->getMaxPrice())
+        {
+            $query->andWhere("i.price <= :maxPrice") ;
             $query->setParameter("maxPrice", $search->getMaxPrice()) ;
         }
         if($search->getMinSurface())
         {
-            $query->where("i.surface >= :minSurface") ;
+            $query->andWhere("i.surface >= :minSurface") ;
             $query->setParameter("minSurface", $search->getMinSurface()) ;
         }
         if(!$search->getOptions()->isEmpty())
@@ -51,9 +52,11 @@ class ImmoRepository extends ServiceEntityRepository
             $index = 0 ;
             foreach($options as $option)
             {
-                $query->where(":option$index MEMBER OF i.options") ;
+                $query->andWhere(":option$index MEMBER OF i.options") ;
                 $query->setParameter("option$index", $option) ;
+                $index++ ;
             }
+        }
         }
 
         return $query ;
@@ -64,7 +67,7 @@ class ImmoRepository extends ServiceEntityRepository
      *
      * @return array
      */
-    public function findAllSolded() : array {
+    public function findAllSolded() : ?QueryBuilder {
         return $this->findAllSoldedOrUnSolded(true) ;
     }
 
