@@ -4,7 +4,7 @@ namespace App\Listener;
 
 use App\Entity\Immo;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\PreFlushEventArgs;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -40,7 +40,7 @@ class ImageCacheSubscriber implements EventSubscriber
         return ["preRemove", "preUpdate"] ;
     }
 
-    public function preRemove(LifeCycleEventArgs $args)
+    public function preRemove(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity() ;
         if($entity instanceof Immo) {
