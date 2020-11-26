@@ -57,6 +57,7 @@ class OptionController extends AbstractController
         {
             $this->em->persist($option) ;
             $this->em->flush() ;
+            $this->addFlash("success", "Ajouté avec succès") ;
 
             return $this->redirectToRoute("admin.option.index") ;
         }
@@ -96,6 +97,8 @@ class OptionController extends AbstractController
         {
             $this->em->flush() ;
 
+            $this->addFlash("success", "Modifié avec succès") ;
+
             return $this->redirectToRoute("admin.option.index") ;
         }
 
@@ -118,6 +121,10 @@ class OptionController extends AbstractController
         {
             $this->em->remove($option) ;
             $this->em->flush() ;
+            $this->addFlash("success", "Supprimé avec succès") ;
+        }
+        else {
+            $this->addFlash("warning", "Un truc s'est mal passé") ;
         }
 
         return $this->redirectToRoute("admin.option.index") ;

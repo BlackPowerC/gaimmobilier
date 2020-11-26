@@ -7,10 +7,14 @@
 {% block body %}
     <div class="container mt-4">
         <h1>Gérer les options</h1>
-                <a title="Ajouter une nouvelle option" class="btn btn-primary" href="{{ path('admin.option.new') }}">
+        
+        {% include "_alert_success.html.twig" %}
+        {% include "_alert_warning.html.twig" %}
+
+        <a title="Ajouter une nouvelle option" class="btn btn-primary" href="{{ path('admin.option.new') }}">
             <i class="fa fa-plus"></i>
         </a>
-        
+
         <table class="table table-striped">
             <thead>
             <tr>
@@ -31,6 +35,7 @@
                         <a title="Modifier" class="btn btn-warning" href="{{ path('admin.option.edit', {'id': option.id}) }}">
                             <i class="fa fa-pencil"></i>
                         </a>
+                        {{ include('admin/option/_delete_form.html.twig') }}
                     </td>
                 </tr>
             {% else %}
