@@ -96,7 +96,7 @@ class OptionController extends AbstractController
         {
             $this->em->flush() ;
 
-            return $this->redirectToRoute("option_index") ;
+            return $this->redirectToRoute("admin.option.index") ;
         }
 
         return $this->render("admin/option/edit.html.twig", [
@@ -120,6 +120,6 @@ class OptionController extends AbstractController
             $this->em->flush() ;
         }
 
-        return $this->redirectToRoute("option_index") ;
+        return $this->redirectToRoute("admin.option.index") ;
     }
 }
