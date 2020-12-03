@@ -12,6 +12,8 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
         "fakerphp/faker": "^1.11",
+        "friendsofsymfony/rest-bundle": "^3.0",
+        "jms/serializer-bundle": "^3.7",
         "knplabs/knp-paginator-bundle": "^5.3",
         "liip/imagine-bundle": "^2.3",
         "phpdocumentor/reflection-docblock": "^5.2",
