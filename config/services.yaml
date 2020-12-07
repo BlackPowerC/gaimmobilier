@@ -36,7 +36,11 @@ services:
     Twig\CacheExtension\CacheProviderInterface:
         class: Twig\CacheExtension\CacheProvider\PsrCacheAdapter
 
-    
+    serializer_listener.option:
+        class: App\Listener\OptionListener
+        tags:
+            - { name: jms_serialiser.event_subscriber}
+
     Twig\CacheExtension\CacheStrategyInterface:
         class: Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy
 

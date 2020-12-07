@@ -23,6 +23,12 @@ class OptionListener implements EventSubscriberInterface
                 "format" => "json",
                 "class" => "App\Entity\Option",
                 "method" => "onPostSerialize"
+            ],
+            [
+                "event" => Events::POST_SERIALIZE,
+                "format" => "xml",
+                "class" => "App\Entity\Option",
+                "method" => "onPostSerialize"
             ]
         ] ;
     }
